@@ -8,11 +8,10 @@ use Illuminate\Http\Request;
 class PostController extends Controller
 {
     public function index() {
-        $posts = Post::where('likes', '>', 15)->get();
-        foreach ($posts as $post) {
-            dump($post->likes);
-        }
-        dd($posts);
+        $posts = Post::all();
+        return view('posts', compact('posts'));
+        // либо так
+        // return view('posts', ['posts' => $posts]);
     }
 
     public function create() {
