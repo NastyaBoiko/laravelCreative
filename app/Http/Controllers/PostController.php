@@ -9,45 +9,42 @@ class PostController extends Controller
 {
     public function index() {
         $posts = Post::all();
-        return view('posts', compact('posts'));
+        return view('post.index', compact('posts'));
         // либо так
         // return view('posts', ['posts' => $posts]);
     }
 
     public function create() {
-        $postsArr = [
-            [
-                'title' => 'A post from VSCode',
-                'content' => 'VSCode content',
-                'image' => 'VSCode image',
-                'likes' => 30,
-                'is_published' => 1,
-            ],
-            [
-                'title' => 'A 2 post from VSCode',
-                'content' => 'VSCode 2 content',
-                'image' => 'VSCode 2 image',
-                'likes' => 50,
-                'is_published' => 1,
-            ],
-        ];
-
-        foreach ($postsArr as $post) {
-            Post::create($post);
-        }
-
-        dd('created');
+        return view('post.create');
     }
 
-    public function update() {
-        $post = Post::find(6);
-
-        $post->update([
-            'title' => '111 updated',
-            'content' => 'updated',
-            'image' => 'updated',
+    public function store() {
+        $data = request()->validate([
+            'title' => 'string',
+            'content' => 'string',
+            'image' => 'string'
         ]);
-        dd('updated');
+        
+        Post::create($data);
+        return redirect()->route('post.index');
+    }
+
+    public function show(Post $post) {
+        return view('post.show', compact('post'));
+    }
+
+    public function edit(Post $post) {
+        return view('post.edit', compact('post'));
+    }
+
+    public function update(Post $post) {
+        $data = request()->validate([
+            'title' => '',
+            'content' => '',
+            'image' => ''
+        ]);
+        $post->update($data);
+        return redirect()->route('post.show', $post->id);
     }
 
     public function delete() {
@@ -57,6 +54,11 @@ class PostController extends Controller
         // $post = Post::withTrashed()->find(2);
         // $post->restore();
         dd('deleted');
+    }
+
+    public function destroy(Post $post) {
+        $post->delete();
+        return redirect()->route('post.index');
     }
 
     public function firstOrCreate() {
