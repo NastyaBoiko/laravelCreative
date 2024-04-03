@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Tag;
 use App\Models\Post;
+use App\Models\PostTag;
 use App\Models\Category;
 use Illuminate\Http\Request;
 
@@ -16,7 +17,8 @@ class PostController extends Controller
 
     public function create() {
         $categories = Category::all();
-        return view('post.create', compact('categories'));
+        $tags = Tag::all();
+        return view('post.create', compact('categories', 'tags'));
     }
 
     public function store() {
@@ -24,10 +26,17 @@ class PostController extends Controller
             'title' => 'string',
             'content' => 'string',
             'image' => 'string',
-            'category_id' => ''
+            'category_id' => '',
+            'tags' => '',
         ]);
-        
-        Post::create($data);
+
+        $tags = $data['tags'];
+        unset($data['tags']);
+        // dd($tags, $data);
+        $post = Post::create($data);
+
+        $post->tags()->attach($tags);
+
         return redirect()->route('post.index');
     }
 
@@ -37,7 +46,9 @@ class PostController extends Controller
 
     public function edit(Post $post) {
         $categories = Category::all();
-        return view('post.edit', compact('post', 'categories'));
+        $tags = Tag::all();
+
+        return view('post.edit', compact('post', 'categories', 'tags'));
     }
 
     public function update(Post $post) {
@@ -45,9 +56,16 @@ class PostController extends Controller
             'title' => '',
             'content' => '',
             'image' => '',
-            'category_id' => ''
+            'category_id' => '',
+            'tags' => '',
         ]);
+
+        $tags = $data['tags'];
+        unset($data['tags']);
+
         $post->update($data);
+        $post->tags()->sync($tags);
+        
         return redirect()->route('post.show', $post->id);
     }
 
