@@ -10,9 +10,9 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 class Tag extends Model
 {
     use HasFactory;
-    use SoftDeletes;
+    // use SoftDeletes;
 
     public function posts() {
-        return $this->belongsToMany(Post::class, 'post_tags');
+        return $this->belongsToMany(Post::class, 'post_tag');
     }
 }

@@ -23,14 +23,18 @@ Route::get('/', function () {
 });
 
 // Route::get('/my_page', 'MyPlaceController@index');
-// Restful
-Route::get('/posts', [PostController::class, 'index'])->name('post.index');
-Route::get('/posts/create', [PostController::class, 'create'])->name('post.create');
-Route::post('/posts', [PostController::class, 'store'])->name('post.store');
-Route::get('/posts/{post}', [PostController::class, 'show'])->name('post.show');
-Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
-Route::patch('/posts/{post}', [PostController::class, 'update'])->name('post.update');
-Route::delete('/posts/{post}', [PostController::class, 'destroy'])->name('post.delete');
+
+Route::group(['namespace' => 'App\Http\Controllers\Post'], function() {
+    // Restful
+    Route::get('/posts', 'IndexController')->name('post.index');
+    Route::get('/posts/create', 'CreateController')->name('post.create');
+    Route::post('/posts', 'StoreController')->name('post.store');
+    Route::get('/posts/{post}', 'ShowController')->name('post.show');
+    Route::get('/posts/{post}/edit', 'EditController')->name('post.edit');
+    Route::patch('/posts/{post}', 'UpdateController')->name('post.update');
+    Route::delete('/posts/{post}', 'DestroyController')->name('post.delete');
+});
+
 
 Route::get('/posts/update', [PostController::class, 'update']);
 Route::get('/posts/delete', [PostController::class, 'delete']);
