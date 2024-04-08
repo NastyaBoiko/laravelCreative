@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Post;
 use App\Models\Tag;
 use App\Models\Category;
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Post\BaseController;
 
-class CreateController extends Controller
+class CreateController extends BaseController
 {
     public function __invoke() {
         $categories = Category::all();
