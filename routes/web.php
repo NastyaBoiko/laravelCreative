@@ -36,6 +36,12 @@ Route::group(['namespace' => 'App\Http\Controllers\Post'], function() {
 });
 
 
+Route::group(['namespace' => 'App\Http\Controllers\Admin', 'prefix' => 'admin'], function() {
+    Route::group(['namespace' => 'Post'], function() {
+        Route::get('/post', 'IndexController')->name('admin.post.index');
+    });
+});
+
 Route::get('/posts/update', [PostController::class, 'update']);
 Route::get('/posts/delete', [PostController::class, 'delete']);
 Route::get('/posts/first_or_create', [PostController::class, 'firstOrCreate']);
