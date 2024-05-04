@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\MainController;
 use App\Http\Controllers\PostController;
 use App\Http\Controllers\AboutController;
@@ -18,9 +19,7 @@ use App\Http\Controllers\ContactController;
 |
 */
 
-Route::get('/', function () {
-    return 'мой первый роут';
-});
+Route::get('/', [HomeController::class, 'index']);
 
 // Route::get('/my_page', 'MyPlaceController@index');
 
@@ -53,3 +52,7 @@ Route::get('/main', [MainController::class, 'index'])->name('main.index');
 Route::get('/contacts', [ContactController::class, 'index'])->name('contact.index');
 Route::get('/about', [AboutController::class, 'index'])->name('about.index');
 
+
+Auth::routes();
+
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
