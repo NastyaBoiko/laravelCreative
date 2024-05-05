@@ -10,6 +10,7 @@ use App\Http\Controllers\Post\BaseController;
 class StoreController extends BaseController
 {
     public function __invoke(StoreRequest $request) {
+
         
         $data = $request->validated();
 
