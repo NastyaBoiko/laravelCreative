@@ -24,7 +24,7 @@ Route::get('/', [HomeController::class, 'index'])->name('home');
 // Route::get('/my_page', 'MyPlaceController@index');
 
 Route::group(['namespace' => 'App\Http\Controllers\Post'], function() {
-    // Restful
+    // CRUD
     Route::get('/posts', 'IndexController')->name('post.index');
     Route::get('/posts/create', 'CreateController')->name('post.create');
     Route::post('/posts', 'StoreController')->name('post.store');
